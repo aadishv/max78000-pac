@@ -34,4 +34,6 @@ PROVIDE(PCIF = DefaultHandler);
 PROVIDE(AES = DefaultHandler);
 PROVIDE(I2S = DefaultHandler);
 PROVIDE(LPCMP = DefaultHandler);
+PROVIDE(CNN_FIFO = DefaultHandler);
+PROVIDE(CNN = DefaultHandler);
 

@@ -89,3 +89,454 @@ UART3:
     _interrupts:
       UART3:
         value: 88
+# Add the CNN accelerator, which the vendor SVD omits. Layouts are from
+# chapter 27 of the MAX78000 User Guide (UG7456).
+_add:
+  CNN:
+    description: "Convolutional Neural Network Accelerator, global control."
+    baseAddress: 0x50000000
+    addressBlock:
+      offset: 0x00
+      size: 0x1004
+      usage: registers
+    registers:
+      CTL:
+        description: "FIFO control."
+        addressOffset: 0x00
+        access: read-write
+        resetValue: 0x00000003
+        fields:
+          rdy_sel:
+            description: "APB wait state selection."
+            bitOffset: 0
+            bitWidth: 2
+          full_thresh:
+            description: "FIFO almost full threshold."
+            bitOffset: 2
+            bitWidth: 3
+          empty_thresh:
+            description: "FIFO almost empty threshold."
+            bitOffset: 7
+            bitWidth: 3
+          fifo_cpl:
+            description: "FIFO coupling. Forces the FIFOs to operate in lockstep."
+            bitOffset: 11
+            bitWidth: 1
+          fifo_en:
+            description: "Per FIFO enable. Bit n enables the FIFO for quadrant n."
+            bitOffset: 12
+            bitWidth: 4
+          full_int_en:
+            description: "FIFO full interrupt enable, one bit per quadrant."
+            bitOffset: 16
+            bitWidth: 4
+          empty_int_en:
+            description: "FIFO empty interrupt enable, one bit per quadrant."
+            bitOffset: 20
+            bitWidth: 4
+          almost_full_int_en:
+            description: "FIFO almost full interrupt enable, one bit per quadrant."
+            bitOffset: 24
+            bitWidth: 4
+          almost_empty_int_en:
+            description: "FIFO almost empty interrupt enable, one bit per quadrant."
+            bitOffset: 28
+            bitWidth: 4
+      STATUS:
+        description: "FIFO status."
+        addressOffset: 0x04
+        access: read-only
+        resetValue: 0x00000000
+        fields:
+          full:
+            description: "Per FIFO full status."
+            bitOffset: 0
+            bitWidth: 4
+          empty:
+            description: "Per FIFO empty status."
+            bitOffset: 4
+            bitWidth: 4
+          almost_full:
+            description: "Per FIFO almost full status."
+            bitOffset: 8
+            bitWidth: 4
+          almost_empty:
+            description: "Per FIFO almost empty status."
+            bitOffset: 12
+            bitWidth: 4
+          fifos_full:
+            description: "Logical AND of the individual FIFO full statuses."
+            bitOffset: 16
+            bitWidth: 1
+          fifos_empty:
+            description: "Logical OR of the individual FIFO empty statuses."
+            bitOffset: 17
+            bitWidth: 1
+          fifos_almost_full:
+            description: "Logical AND of the individual FIFO almost full statuses."
+            bitOffset: 18
+            bitWidth: 1
+          fifos_almost_empty:
+            description: "Logical OR of the individual FIFO almost empty statuses."
+            bitOffset: 19
+            bitWidth: 1
+          wptr_eq:
+            description: "All active FIFO write pointers are equal."
+            bitOffset: 20
+            bitWidth: 1
+          rptr_eq:
+            description: "All active FIFO read pointers are equal."
+            bitOffset: 21
+            bitWidth: 1
+      FIFO0:
+        description: "FIFO 0 data port."
+        addressOffset: 0x08
+        access: read-write
+        resetValue: 0x00000000
+      FIFO1:
+        description: "FIFO 1 data port."
+        addressOffset: 0x0c
+        access: read-write
+        resetValue: 0x00000000
+      FIFO2:
+        description: "FIFO 2 data port."
+        addressOffset: 0x10
+        access: read-write
+        resetValue: 0x00000000
+      FIFO3:
+        description: "FIFO 3 data port."
+        addressOffset: 0x14
+        access: read-write
+        resetValue: 0x00000000
+      AON:
+        description: "Always-on domain control."
+        addressOffset: 0x1000
+        access: read-write
+        resetValue: 0x00000003
+        fields:
+          rdy_sel:
+            description: "APB wait state selection."
+            bitOffset: 0
+            bitWidth: 2
+          dsleep:
+            description: "MRAM deep sleep, one bit per quadrant. Contents are retained."
+            bitOffset: 8
+            bitWidth: 4
+          pd:
+            description: "MRAM power down, one bit per quadrant. Contents are lost."
+            bitOffset: 12
+            bitWidth: 4
+          rm:
+            description: "MRAM read margin MSB, one bit per quadrant."
+            bitOffset: 16
+            bitWidth: 4
+    interrupts:
+      CNN_FIFO:
+        description: "CNN FIFO."
+        value: 116
+      CNN:
+        description: "CNN accelerator completion."
+        value: 117
+  CNNX16_0:
+    description: "CNNx16 quadrant 0 control."
+    baseAddress: 0x50100000
+    addressBlock:
+      offset: 0x00
+      size: 0x10
+      usage: registers
+    registers:
+      CTL:
+        description: "Quadrant control."
+        addressOffset: 0x00
+        access: read-write
+        resetValue: 0x00000006
+        fields:
+          en:
+            description: "CNN enable. A 0 to 1 transition starts processing."
+            bitOffset: 0
+            bitWidth: 1
+          rdy_sel:
+            description: "APB wait state selection."
+            bitOffset: 1
+            bitWidth: 2
+          clk_en:
+            description: "Data processing clock enable."
+            bitOffset: 3
+            bitWidth: 1
+          calcmax:
+            description: "Globally enable max pooling when pool_en is set."
+            bitOffset: 4
+            bitWidth: 1
+          pool_en:
+            description: "Globally enable pooling for all layers."
+            bitOffset: 5
+            bitWidth: 1
+          bigdata:
+            description: "Four data bytes per read for each group of four processors."
+            bitOffset: 6
+            bitWidth: 1
+          apbclkena:
+            description: "Keep the APB clock always on."
+            bitOffset: 7
+            bitWidth: 1
+          oneshot:
+            description: "One-shot layer mode."
+            bitOffset: 8
+            bitWidth: 1
+          ext_sync:
+            description: "External sync select. Bit n syncs to quadrant n."
+            bitOffset: 9
+            bitWidth: 3
+          irq:
+            description: "Completion flag. Write zero to acknowledge."
+            bitOffset: 12
+            bitWidth: 1
+          pool_rnd:
+            description: "Average pool rounding."
+            bitOffset: 13
+            bitWidth: 1
+          stream_en:
+            description: "Streaming mode enable."
+            bitOffset: 14
+            bitWidth: 1
+          fifo_en:
+            description: "Take the input layer's data from the CNN FIFO."
+            bitOffset: 15
+            bitWidth: 1
+          mlat_ld:
+            description: "Mlator load data."
+            bitOffset: 16
+            bitWidth: 1
+          mlat_sel:
+            description: "Mlator packed channel select."
+            bitOffset: 17
+            bitWidth: 2
+          lilbuf:
+            description: "Stream mode circular buffer enable."
+            bitOffset: 19
+            bitWidth: 1
+          mexpress:
+            description: "Load the mask memories using packed data."
+            bitOffset: 20
+            bitWidth: 1
+          simple1b:
+            description: "Simple 1-bit weight mode."
+            bitOffset: 21
+            bitWidth: 1
+          fast_fifo:
+            description: "Fast FIFO enable."
+            bitOffset: 22
+            bitWidth: 1
+          fifo_group:
+            description: "FIFO group output."
+            bitOffset: 23
+            bitWidth: 1
+          fclk_dly:
+            description: "FIFO clock delay."
+            bitOffset: 24
+            bitWidth: 6
+          timeshft:
+            description: "Add a pooling stage wait state."
+            bitOffset: 30
+            bitWidth: 1
+          qupac:
+            description: "QuPac mode."
+            bitOffset: 31
+            bitWidth: 1
+      SRAM:
+        description: "SRAM control."
+        addressOffset: 0x04
+        access: read-write
+        resetValue: 0x0000000e
+        fields:
+          extacc:
+            description: "SRAM extended access time enable."
+            bitOffset: 0
+            bitWidth: 1
+          rmargin_en:
+            description: "SRAM read margin enable."
+            bitOffset: 1
+            bitWidth: 1
+          rmargin:
+            description: "SRAM read margin."
+            bitOffset: 2
+            bitWidth: 4
+          ra:
+            description: "Read assist voltage."
+            bitOffset: 6
+            bitWidth: 2
+          wneg_vol:
+            description: "Write negative voltage."
+            bitOffset: 8
+            bitWidth: 2
+          wneg_en:
+            description: "Write negative voltage enable."
+            bitOffset: 10
+            bitWidth: 1
+          wpulse:
+            description: "Write pulse width."
+            bitOffset: 11
+            bitWidth: 3
+          ds:
+            description: "Memory deep sleep enable."
+            bitOffset: 15
+            bitWidth: 1
+          pd:
+            description: "Memory power down enable."
+            bitOffset: 16
+            bitWidth: 1
+          lsdram:
+            description: "Data RAM light sleep."
+            bitOffset: 19
+            bitWidth: 1
+          lsmram:
+            description: "MRAM light sleep."
+            bitOffset: 20
+            bitWidth: 1
+          lstram:
+            description: "TRAM light sleep."
+            bitOffset: 21
+            bitWidth: 1
+          lsbram:
+            description: "Bias memory light sleep."
+            bitOffset: 22
+            bitWidth: 1
+      LCNT:
+        description: "Layer count maximum. Processing always starts at layer 0."
+        addressOffset: 0x08
+        access: read-write
+        resetValue: 0x00000000
+        fields:
+          last:
+            description: "Index of the last layer to execute."
+            bitOffset: 0
+            bitWidth: 5
+      TEST:
+        description: "SRAM test: memory BIST and zeroization."
+        addressOffset: 0x0c
+        access: read-write
+        resetValue: 0x00000000
+        fields:
+          sbistrun:
+            description: "Run the data SRAM BIST."
+            bitOffset: 0
+            bitWidth: 1
+          sramz:
+            description: "Zeroize the data SRAM."
+            bitOffset: 1
+            bitWidth: 1
+          mbistrun:
+            description: "Run the MRAM BIST."
+            bitOffset: 2
+            bitWidth: 1
+          mramz:
+            description: "Zeroize the MRAM."
+            bitOffset: 3
+            bitWidth: 1
+          tbistrun:
+            description: "Run the TRAM BIST."
+            bitOffset: 4
+            bitWidth: 1
+          tramz:
+            description: "Zeroize the TRAM."
+            bitOffset: 5
+            bitWidth: 1
+          bbistrun:
+            description: "Run the bias memory BIST."
+            bitOffset: 6
+            bitWidth: 1
+          bramz:
+            description: "Zeroize the bias memory."
+            bitOffset: 7
+            bitWidth: 1
+          bistsel:
+            description: "BIST controller status selection."
+            bitOffset: 8
+            bitWidth: 6
+          sallbfail:
+            description: "Data SRAM BIST failed."
+            bitOffset: 14
+            bitWidth: 1
+            access: read-only
+          mallbfail:
+            description: "MRAM BIST failed."
+            bitOffset: 15
+            bitWidth: 1
+            access: read-only
+          tallbfail:
+            description: "TRAM BIST failed."
+            bitOffset: 16
+            bitWidth: 1
+            access: read-only
+          ballbfail:
+            description: "Bias memory BIST failed."
+            bitOffset: 17
+            bitWidth: 1
+            access: read-only
+          sallbdone:
+            description: "Data SRAM BIST complete."
+            bitOffset: 18
+            bitWidth: 1
+            access: read-only
+          mallbdone:
+            description: "MRAM BIST complete."
+            bitOffset: 19
+            bitWidth: 1
+            access: read-only
+          tallbdone:
+            description: "TRAM BIST complete."
+            bitOffset: 20
+            bitWidth: 1
+            access: read-only
+          ballbdone:
+            description: "Bias memory BIST complete."
+            bitOffset: 21
+            bitWidth: 1
+            access: read-only
+          sallzdone:
+            description: "Data SRAM zeroization complete."
+            bitOffset: 22
+            bitWidth: 1
+            access: read-only
+          mallzdone:
+            description: "MRAM zeroization complete."
+            bitOffset: 23
+            bitWidth: 1
+            access: read-only
+          tallzdone:
+            description: "TRAM zeroization complete."
+            bitOffset: 24
+            bitWidth: 1
+            access: read-only
+          ballzdone:
+            description: "Bias memory zeroization complete."
+            bitOffset: 25
+            bitWidth: 1
+            access: read-only
+          bistfail:
+            description: "A BIST run detected a failure."
+            bitOffset: 26
+            bitWidth: 1
+            access: read-only
+          bistdone:
+            description: "BIST run complete."
+            bitOffset: 27
+            bitWidth: 1
+            access: read-only
+          zero_done:
+            description: "Zeroization complete."
+            bitOffset: 28
+            bitWidth: 1
+            access: read-only
+  CNNX16_1:
+    derivedFrom: CNNX16_0
+    description: "CNNx16 quadrant 1 control."
+    baseAddress: 0x50500000
+  CNNX16_2:
+    derivedFrom: CNNX16_0
+    description: "CNNx16 quadrant 2 control."
+    baseAddress: 0x50900000
+  CNNX16_3:
+    derivedFrom: CNNX16_0
+    description: "CNNx16 quadrant 3 control."
+    baseAddress: 0x50D00000

@@ -10502,6 +10502,665 @@
         </register>
       </registers>
     </peripheral>
+    <peripheral>
+      <name>CNN</name>
+      <description>Convolutional Neural Network Accelerator, global control.</description>
+      <baseAddress>0x50000000</baseAddress>
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>0x1004</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <interrupt>
+        <name>CNN_FIFO</name>
+        <description>CNN FIFO.</description>
+        <value>116</value>
+      </interrupt>
+      <interrupt>
+        <name>CNN</name>
+        <description>CNN accelerator completion.</description>
+        <value>117</value>
+      </interrupt>
+      <registers>
+        <register>
+          <name>CTL</name>
+          <description>FIFO control.</description>
+          <addressOffset>0x0</addressOffset>
+          <access>read-write</access>
+          <resetValue>0x00000003</resetValue>
+          <fields>
+            <field>
+              <name>rdy_sel</name>
+              <description>APB wait state selection.</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>2</bitWidth>
+            </field>
+            <field>
+              <name>full_thresh</name>
+              <description>FIFO almost full threshold.</description>
+              <bitOffset>2</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+            <field>
+              <name>empty_thresh</name>
+              <description>FIFO almost empty threshold.</description>
+              <bitOffset>7</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+            <field>
+              <name>fifo_cpl</name>
+              <description>FIFO coupling. Forces the FIFOs to operate in lockstep.</description>
+              <bitOffset>11</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>fifo_en</name>
+              <description>Per FIFO enable. Bit n enables the FIFO for quadrant n.</description>
+              <bitOffset>12</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>full_int_en</name>
+              <description>FIFO full interrupt enable, one bit per quadrant.</description>
+              <bitOffset>16</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>empty_int_en</name>
+              <description>FIFO empty interrupt enable, one bit per quadrant.</description>
+              <bitOffset>20</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>almost_full_int_en</name>
+              <description>FIFO almost full interrupt enable, one bit per quadrant.</description>
+              <bitOffset>24</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>almost_empty_int_en</name>
+              <description>FIFO almost empty interrupt enable, one bit per quadrant.</description>
+              <bitOffset>28</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>STATUS</name>
+          <description>FIFO status.</description>
+          <addressOffset>0x4</addressOffset>
+          <access>read-only</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>full</name>
+              <description>Per FIFO full status.</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>empty</name>
+              <description>Per FIFO empty status.</description>
+              <bitOffset>4</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>almost_full</name>
+              <description>Per FIFO almost full status.</description>
+              <bitOffset>8</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>almost_empty</name>
+              <description>Per FIFO almost empty status.</description>
+              <bitOffset>12</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>fifos_full</name>
+              <description>Logical AND of the individual FIFO full statuses.</description>
+              <bitOffset>16</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>fifos_empty</name>
+              <description>Logical OR of the individual FIFO empty statuses.</description>
+              <bitOffset>17</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>fifos_almost_full</name>
+              <description>Logical AND of the individual FIFO almost full statuses.</description>
+              <bitOffset>18</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>fifos_almost_empty</name>
+              <description>Logical OR of the individual FIFO almost empty statuses.</description>
+              <bitOffset>19</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>wptr_eq</name>
+              <description>All active FIFO write pointers are equal.</description>
+              <bitOffset>20</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>rptr_eq</name>
+              <description>All active FIFO read pointers are equal.</description>
+              <bitOffset>21</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>FIFO0</name>
+          <description>FIFO 0 data port.</description>
+          <addressOffset>0x8</addressOffset>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>FIFO1</name>
+          <description>FIFO 1 data port.</description>
+          <addressOffset>0xC</addressOffset>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>FIFO2</name>
+          <description>FIFO 2 data port.</description>
+          <addressOffset>0x10</addressOffset>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>FIFO3</name>
+          <description>FIFO 3 data port.</description>
+          <addressOffset>0x14</addressOffset>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>AON</name>
+          <description>Always-on domain control.</description>
+          <addressOffset>0x1000</addressOffset>
+          <access>read-write</access>
+          <resetValue>0x00000003</resetValue>
+          <fields>
+            <field>
+              <name>rdy_sel</name>
+              <description>APB wait state selection.</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>2</bitWidth>
+            </field>
+            <field>
+              <name>dsleep</name>
+              <description>MRAM deep sleep, one bit per quadrant. Contents are retained.</description>
+              <bitOffset>8</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>pd</name>
+              <description>MRAM power down, one bit per quadrant. Contents are lost.</description>
+              <bitOffset>12</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>rm</name>
+              <description>MRAM read margin MSB, one bit per quadrant.</description>
+              <bitOffset>16</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+    <peripheral>
+      <name>CNNX16_0</name>
+      <description>CNNx16 quadrant 0 control.</description>
+      <baseAddress>0x50100000</baseAddress>
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>0x10</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>
+          <name>CTL</name>
+          <description>Quadrant control.</description>
+          <addressOffset>0x0</addressOffset>
+          <access>read-write</access>
+          <resetValue>0x00000006</resetValue>
+          <fields>
+            <field>
+              <name>en</name>
+              <description>CNN enable. A 0 to 1 transition starts processing.</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>rdy_sel</name>
+              <description>APB wait state selection.</description>
+              <bitOffset>1</bitOffset>
+              <bitWidth>2</bitWidth>
+            </field>
+            <field>
+              <name>clk_en</name>
+              <description>Data processing clock enable.</description>
+              <bitOffset>3</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>calcmax</name>
+              <description>Globally enable max pooling when pool_en is set.</description>
+              <bitOffset>4</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>pool_en</name>
+              <description>Globally enable pooling for all layers.</description>
+              <bitOffset>5</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>bigdata</name>
+              <description>Four data bytes per read for each group of four processors.</description>
+              <bitOffset>6</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>apbclkena</name>
+              <description>Keep the APB clock always on.</description>
+              <bitOffset>7</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>oneshot</name>
+              <description>One-shot layer mode.</description>
+              <bitOffset>8</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>ext_sync</name>
+              <description>External sync select. Bit n syncs to quadrant n.</description>
+              <bitOffset>9</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+            <field>
+              <name>irq</name>
+              <description>Completion flag. Write zero to acknowledge.</description>
+              <bitOffset>12</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>pool_rnd</name>
+              <description>Average pool rounding.</description>
+              <bitOffset>13</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>stream_en</name>
+              <description>Streaming mode enable.</description>
+              <bitOffset>14</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>fifo_en</name>
+              <description>Take the input layer's data from the CNN FIFO.</description>
+              <bitOffset>15</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>mlat_ld</name>
+              <description>Mlator load data.</description>
+              <bitOffset>16</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>mlat_sel</name>
+              <description>Mlator packed channel select.</description>
+              <bitOffset>17</bitOffset>
+              <bitWidth>2</bitWidth>
+            </field>
+            <field>
+              <name>lilbuf</name>
+              <description>Stream mode circular buffer enable.</description>
+              <bitOffset>19</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>mexpress</name>
+              <description>Load the mask memories using packed data.</description>
+              <bitOffset>20</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>simple1b</name>
+              <description>Simple 1-bit weight mode.</description>
+              <bitOffset>21</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>fast_fifo</name>
+              <description>Fast FIFO enable.</description>
+              <bitOffset>22</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>fifo_group</name>
+              <description>FIFO group output.</description>
+              <bitOffset>23</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>fclk_dly</name>
+              <description>FIFO clock delay.</description>
+              <bitOffset>24</bitOffset>
+              <bitWidth>6</bitWidth>
+            </field>
+            <field>
+              <name>timeshft</name>
+              <description>Add a pooling stage wait state.</description>
+              <bitOffset>30</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>qupac</name>
+              <description>QuPac mode.</description>
+              <bitOffset>31</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>SRAM</name>
+          <description>SRAM control.</description>
+          <addressOffset>0x4</addressOffset>
+          <access>read-write</access>
+          <resetValue>0x0000000E</resetValue>
+          <fields>
+            <field>
+              <name>extacc</name>
+              <description>SRAM extended access time enable.</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>rmargin_en</name>
+              <description>SRAM read margin enable.</description>
+              <bitOffset>1</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>rmargin</name>
+              <description>SRAM read margin.</description>
+              <bitOffset>2</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>ra</name>
+              <description>Read assist voltage.</description>
+              <bitOffset>6</bitOffset>
+              <bitWidth>2</bitWidth>
+            </field>
+            <field>
+              <name>wneg_vol</name>
+              <description>Write negative voltage.</description>
+              <bitOffset>8</bitOffset>
+              <bitWidth>2</bitWidth>
+            </field>
+            <field>
+              <name>wneg_en</name>
+              <description>Write negative voltage enable.</description>
+              <bitOffset>10</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>wpulse</name>
+              <description>Write pulse width.</description>
+              <bitOffset>11</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+            <field>
+              <name>ds</name>
+              <description>Memory deep sleep enable.</description>
+              <bitOffset>15</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>pd</name>
+              <description>Memory power down enable.</description>
+              <bitOffset>16</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>lsdram</name>
+              <description>Data RAM light sleep.</description>
+              <bitOffset>19</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>lsmram</name>
+              <description>MRAM light sleep.</description>
+              <bitOffset>20</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>lstram</name>
+              <description>TRAM light sleep.</description>
+              <bitOffset>21</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>lsbram</name>
+              <description>Bias memory light sleep.</description>
+              <bitOffset>22</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>LCNT</name>
+          <description>Layer count maximum. Processing always starts at layer 0.</description>
+          <addressOffset>0x8</addressOffset>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>last</name>
+              <description>Index of the last layer to execute.</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>5</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TEST</name>
+          <description>SRAM test: memory BIST and zeroization.</description>
+          <addressOffset>0xC</addressOffset>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>sbistrun</name>
+              <description>Run the data SRAM BIST.</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>sramz</name>
+              <description>Zeroize the data SRAM.</description>
+              <bitOffset>1</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>mbistrun</name>
+              <description>Run the MRAM BIST.</description>
+              <bitOffset>2</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>mramz</name>
+              <description>Zeroize the MRAM.</description>
+              <bitOffset>3</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>tbistrun</name>
+              <description>Run the TRAM BIST.</description>
+              <bitOffset>4</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>tramz</name>
+              <description>Zeroize the TRAM.</description>
+              <bitOffset>5</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>bbistrun</name>
+              <description>Run the bias memory BIST.</description>
+              <bitOffset>6</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>bramz</name>
+              <description>Zeroize the bias memory.</description>
+              <bitOffset>7</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>bistsel</name>
+              <description>BIST controller status selection.</description>
+              <bitOffset>8</bitOffset>
+              <bitWidth>6</bitWidth>
+            </field>
+            <field>
+              <name>sallbfail</name>
+              <description>Data SRAM BIST failed.</description>
+              <bitOffset>14</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>mallbfail</name>
+              <description>MRAM BIST failed.</description>
+              <bitOffset>15</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>tallbfail</name>
+              <description>TRAM BIST failed.</description>
+              <bitOffset>16</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>ballbfail</name>
+              <description>Bias memory BIST failed.</description>
+              <bitOffset>17</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>sallbdone</name>
+              <description>Data SRAM BIST complete.</description>
+              <bitOffset>18</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>mallbdone</name>
+              <description>MRAM BIST complete.</description>
+              <bitOffset>19</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>tallbdone</name>
+              <description>TRAM BIST complete.</description>
+              <bitOffset>20</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>ballbdone</name>
+              <description>Bias memory BIST complete.</description>
+              <bitOffset>21</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>sallzdone</name>
+              <description>Data SRAM zeroization complete.</description>
+              <bitOffset>22</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>mallzdone</name>
+              <description>MRAM zeroization complete.</description>
+              <bitOffset>23</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>tallzdone</name>
+              <description>TRAM zeroization complete.</description>
+              <bitOffset>24</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>ballzdone</name>
+              <description>Bias memory zeroization complete.</description>
+              <bitOffset>25</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>bistfail</name>
+              <description>A BIST run detected a failure.</description>
+              <bitOffset>26</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>bistdone</name>
+              <description>BIST run complete.</description>
+              <bitOffset>27</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>zero_done</name>
+              <description>Zeroization complete.</description>
+              <bitOffset>28</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+    <peripheral derivedFrom="CNNX16_0">
+      <name>CNNX16_1</name>
+      <description>CNNx16 quadrant 1 control.</description>
+      <baseAddress>0x50500000</baseAddress>
+    </peripheral>
+    <peripheral derivedFrom="CNNX16_0">
+      <name>CNNX16_2</name>
+      <description>CNNx16 quadrant 2 control.</description>
+      <baseAddress>0x50900000</baseAddress>
+    </peripheral>
+    <peripheral derivedFrom="CNNX16_0">
+      <name>CNNX16_3</name>
+      <description>CNNx16 quadrant 3 control.</description>
+      <baseAddress>0x50D00000</baseAddress>
+    </peripheral>
     <peripheral derivedFrom="SPI0">
       <name>SPI1</name>
       <description>SPI peripheral. 1</description>
