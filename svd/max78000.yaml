@@ -540,3 +540,28 @@ _add:
     derivedFrom: CNNX16_0
     description: "CNNx16 quadrant 3 control."
     baseAddress: 0x50D00000
+
+I2S:
+  CTRL0CH0:
+    # The vendor SVD marks these read-only, but they are the I2S format.
+    _modify:
+      ALIGN:
+        access: read-write
+      STEREO:
+        access: read-write
+    ALIGN:
+      MSB: [0, "MSB justified."]
+      LSB: [1, "LSB justified."]
+    STEREO:
+      STEREO: [0, "Stereo."]
+      MONO_LEFT: [2, "Mono, left channel."]
+      MONO_RIGHT: [3, "Mono, right channel."]
+    WSIZE:
+      BYTE: [0, "8-bit FIFO words."]
+      HALFWORD: [1, "16-bit FIFO words."]
+      WORD: [2, "32-bit FIFO words."]
+    RX_THD_VAL: [0, 255]
+  CTRL1CH0:
+    BITS_WORD: [0, 31]
+    SMP_SIZE: [0, 31]
+    CLKDIV: [0, 65535]

@@ -6395,7 +6395,20 @@
               <name>ALIGN</name>
               <description>Align to MSB or LSB.</description>
               <bitRange>[10:10]</bitRange>
-              <access>read-only</access>
+              <access>read-write</access>
+              <enumeratedValues>
+                <name>ALIGN</name>
+                <enumeratedValue>
+                  <name>MSB</name>
+                  <description>MSB justified.</description>
+                  <value>0</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>LSB</name>
+                  <description>LSB justified.</description>
+                  <value>1</value>
+                </enumeratedValue>
+              </enumeratedValues>
             </field>
             <field>
               <name>EXT_SEL</name>
@@ -6407,13 +6420,49 @@
               <name>STEREO</name>
               <description>Stereo mode of I2S.</description>
               <bitRange>[13:12]</bitRange>
-              <access>read-only</access>
+              <access>read-write</access>
+              <enumeratedValues>
+                <name>STEREO</name>
+                <enumeratedValue>
+                  <name>STEREO</name>
+                  <description>Stereo.</description>
+                  <value>0</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>MONO_LEFT</name>
+                  <description>Mono, left channel.</description>
+                  <value>2</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>MONO_RIGHT</name>
+                  <description>Mono, right channel.</description>
+                  <value>3</value>
+                </enumeratedValue>
+              </enumeratedValues>
             </field>
             <field>
               <name>WSIZE</name>
               <description>Data size when write to FIFO.</description>
               <bitRange>[15:14]</bitRange>
               <access>read-write</access>
+              <enumeratedValues>
+                <name>WSIZE</name>
+                <enumeratedValue>
+                  <name>BYTE</name>
+                  <description>8-bit FIFO words.</description>
+                  <value>0</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>HALFWORD</name>
+                  <description>16-bit FIFO words.</description>
+                  <value>1</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>WORD</name>
+                  <description>32-bit FIFO words.</description>
+                  <value>2</value>
+                </enumeratedValue>
+              </enumeratedValues>
             </field>
             <field>
               <name>TX_EN</name>
@@ -6450,6 +6499,12 @@
               <description>depth of receive FIFO for threshold interrupt generation.</description>
               <bitRange>[31:24]</bitRange>
               <access>read-write</access>
+              <writeConstraint>
+                <range>
+                  <minimum>0</minimum>
+                  <maximum>255</maximum>
+                </range>
+              </writeConstraint>
             </field>
           </fields>
         </register>
@@ -6463,6 +6518,12 @@
               <description>I2S word length.</description>
               <bitRange>[4:0]</bitRange>
               <access>read-write</access>
+              <writeConstraint>
+                <range>
+                  <minimum>0</minimum>
+                  <maximum>31</maximum>
+                </range>
+              </writeConstraint>
             </field>
             <field>
               <name>EN</name>
@@ -6475,6 +6536,12 @@
               <description>I2S sample size length.</description>
               <bitRange>[13:9]</bitRange>
               <access>read-write</access>
+              <writeConstraint>
+                <range>
+                  <minimum>0</minimum>
+                  <maximum>31</maximum>
+                </range>
+              </writeConstraint>
             </field>
             <field>
               <name>ADJUST</name>
@@ -6487,6 +6554,12 @@
               <description>I2S clock frequency divisor.</description>
               <bitRange>[31:16]</bitRange>
               <access>read-write</access>
+              <writeConstraint>
+                <range>
+                  <minimum>0</minimum>
+                  <maximum>65535</maximum>
+                </range>
+              </writeConstraint>
             </field>
           </fields>
         </register>

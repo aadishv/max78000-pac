@@ -32,18 +32,209 @@ pub type WsPolR = crate::BitReader;
 pub type WsPolW<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `MSB_LOC` reader - MSB location."]
 pub type MsbLocR = crate::BitReader;
+#[doc = "Align to MSB or LSB.\n\nValue on reset: 0"]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Align {
+    #[doc = "0: MSB justified."]
+    Msb = 0,
+    #[doc = "1: LSB justified."]
+    Lsb = 1,
+}
+impl From<Align> for bool {
+    #[inline(always)]
+    fn from(variant: Align) -> Self {
+        variant as u8 != 0
+    }
+}
 #[doc = "Field `ALIGN` reader - Align to MSB or LSB."]
-pub type AlignR = crate::BitReader;
+pub type AlignR = crate::BitReader<Align>;
+impl AlignR {
+    #[doc = "Get enumerated values variant"]
+    #[inline(always)]
+    pub const fn variant(&self) -> Align {
+        match self.bits {
+            false => Align::Msb,
+            true => Align::Lsb,
+        }
+    }
+    #[doc = "MSB justified."]
+    #[inline(always)]
+    pub fn is_msb(&self) -> bool {
+        *self == Align::Msb
+    }
+    #[doc = "LSB justified."]
+    #[inline(always)]
+    pub fn is_lsb(&self) -> bool {
+        *self == Align::Lsb
+    }
+}
+#[doc = "Field `ALIGN` writer - Align to MSB or LSB."]
+pub type AlignW<'a, REG> = crate::BitWriter<'a, REG, Align>;
+impl<'a, REG> AlignW<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
+    #[doc = "MSB justified."]
+    #[inline(always)]
+    pub fn msb(self) -> &'a mut crate::W<REG> {
+        self.variant(Align::Msb)
+    }
+    #[doc = "LSB justified."]
+    #[inline(always)]
+    pub fn lsb(self) -> &'a mut crate::W<REG> {
+        self.variant(Align::Lsb)
+    }
+}
 #[doc = "Field `EXT_SEL` reader - External SCK/WS selection."]
 pub type ExtSelR = crate::BitReader;
 #[doc = "Field `EXT_SEL` writer - External SCK/WS selection."]
 pub type ExtSelW<'a, REG> = crate::BitWriter<'a, REG>;
+#[doc = "Stereo mode of I2S.\n\nValue on reset: 0"]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[repr(u8)]
+pub enum Stereo {
+    #[doc = "0: Stereo."]
+    Stereo = 0,
+    #[doc = "2: Mono, left channel."]
+    MonoLeft = 2,
+    #[doc = "3: Mono, right channel."]
+    MonoRight = 3,
+}
+impl From<Stereo> for u8 {
+    #[inline(always)]
+    fn from(variant: Stereo) -> Self {
+        variant as _
+    }
+}
+impl crate::FieldSpec for Stereo {
+    type Ux = u8;
+}
+impl crate::IsEnum for Stereo {}
 #[doc = "Field `STEREO` reader - Stereo mode of I2S."]
-pub type StereoR = crate::FieldReader;
+pub type StereoR = crate::FieldReader<Stereo>;
+impl StereoR {
+    #[doc = "Get enumerated values variant"]
+    #[inline(always)]
+    pub const fn variant(&self) -> Option<Stereo> {
+        match self.bits {
+            0 => Some(Stereo::Stereo),
+            2 => Some(Stereo::MonoLeft),
+            3 => Some(Stereo::MonoRight),
+            _ => None,
+        }
+    }
+    #[doc = "Stereo."]
+    #[inline(always)]
+    pub fn is_stereo(&self) -> bool {
+        *self == Stereo::Stereo
+    }
+    #[doc = "Mono, left channel."]
+    #[inline(always)]
+    pub fn is_mono_left(&self) -> bool {
+        *self == Stereo::MonoLeft
+    }
+    #[doc = "Mono, right channel."]
+    #[inline(always)]
+    pub fn is_mono_right(&self) -> bool {
+        *self == Stereo::MonoRight
+    }
+}
+#[doc = "Field `STEREO` writer - Stereo mode of I2S."]
+pub type StereoW<'a, REG> = crate::FieldWriter<'a, REG, 2, Stereo>;
+impl<'a, REG> StereoW<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+    REG::Ux: From<u8>,
+{
+    #[doc = "Stereo."]
+    #[inline(always)]
+    pub fn stereo(self) -> &'a mut crate::W<REG> {
+        self.variant(Stereo::Stereo)
+    }
+    #[doc = "Mono, left channel."]
+    #[inline(always)]
+    pub fn mono_left(self) -> &'a mut crate::W<REG> {
+        self.variant(Stereo::MonoLeft)
+    }
+    #[doc = "Mono, right channel."]
+    #[inline(always)]
+    pub fn mono_right(self) -> &'a mut crate::W<REG> {
+        self.variant(Stereo::MonoRight)
+    }
+}
+#[doc = "Data size when write to FIFO.\n\nValue on reset: 0"]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[repr(u8)]
+pub enum Wsize {
+    #[doc = "0: 8-bit FIFO words."]
+    Byte = 0,
+    #[doc = "1: 16-bit FIFO words."]
+    Halfword = 1,
+    #[doc = "2: 32-bit FIFO words."]
+    Word = 2,
+}
+impl From<Wsize> for u8 {
+    #[inline(always)]
+    fn from(variant: Wsize) -> Self {
+        variant as _
+    }
+}
+impl crate::FieldSpec for Wsize {
+    type Ux = u8;
+}
+impl crate::IsEnum for Wsize {}
 #[doc = "Field `WSIZE` reader - Data size when write to FIFO."]
-pub type WsizeR = crate::FieldReader;
+pub type WsizeR = crate::FieldReader<Wsize>;
+impl WsizeR {
+    #[doc = "Get enumerated values variant"]
+    #[inline(always)]
+    pub const fn variant(&self) -> Option<Wsize> {
+        match self.bits {
+            0 => Some(Wsize::Byte),
+            1 => Some(Wsize::Halfword),
+            2 => Some(Wsize::Word),
+            _ => None,
+        }
+    }
+    #[doc = "8-bit FIFO words."]
+    #[inline(always)]
+    pub fn is_byte(&self) -> bool {
+        *self == Wsize::Byte
+    }
+    #[doc = "16-bit FIFO words."]
+    #[inline(always)]
+    pub fn is_halfword(&self) -> bool {
+        *self == Wsize::Halfword
+    }
+    #[doc = "32-bit FIFO words."]
+    #[inline(always)]
+    pub fn is_word(&self) -> bool {
+        *self == Wsize::Word
+    }
+}
 #[doc = "Field `WSIZE` writer - Data size when write to FIFO."]
-pub type WsizeW<'a, REG> = crate::FieldWriter<'a, REG, 2>;
+pub type WsizeW<'a, REG> = crate::FieldWriter<'a, REG, 2, Wsize>;
+impl<'a, REG> WsizeW<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+    REG::Ux: From<u8>,
+{
+    #[doc = "8-bit FIFO words."]
+    #[inline(always)]
+    pub fn byte(self) -> &'a mut crate::W<REG> {
+        self.variant(Wsize::Byte)
+    }
+    #[doc = "16-bit FIFO words."]
+    #[inline(always)]
+    pub fn halfword(self) -> &'a mut crate::W<REG> {
+        self.variant(Wsize::Halfword)
+    }
+    #[doc = "32-bit FIFO words."]
+    #[inline(always)]
+    pub fn word(self) -> &'a mut crate::W<REG> {
+        self.variant(Wsize::Word)
+    }
+}
 #[doc = "Field `TX_EN` reader - TX channel enable."]
 pub type TxEnR = crate::BitReader;
 #[doc = "Field `TX_EN` writer - TX channel enable."]
@@ -67,7 +258,7 @@ pub type FifoLsbW<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `RX_THD_VAL` reader - depth of receive FIFO for threshold interrupt generation."]
 pub type RxThdValR = crate::FieldReader;
 #[doc = "Field `RX_THD_VAL` writer - depth of receive FIFO for threshold interrupt generation."]
-pub type RxThdValW<'a, REG> = crate::FieldWriter<'a, REG, 8>;
+pub type RxThdValW<'a, REG> = crate::FieldWriter<'a, REG, 8, u8, crate::Safe>;
 impl R {
     #[doc = "Bit 1 - LSB Transmit Receive First."]
     #[inline(always)]
@@ -196,10 +387,20 @@ impl W {
     pub fn ws_pol(&mut self) -> WsPolW<Ctrl0ch0Spec> {
         WsPolW::new(self, 8)
     }
+    #[doc = "Bit 10 - Align to MSB or LSB."]
+    #[inline(always)]
+    pub fn align(&mut self) -> AlignW<Ctrl0ch0Spec> {
+        AlignW::new(self, 10)
+    }
     #[doc = "Bit 11 - External SCK/WS selection."]
     #[inline(always)]
     pub fn ext_sel(&mut self) -> ExtSelW<Ctrl0ch0Spec> {
         ExtSelW::new(self, 11)
+    }
+    #[doc = "Bits 12:13 - Stereo mode of I2S."]
+    #[inline(always)]
+    pub fn stereo(&mut self) -> StereoW<Ctrl0ch0Spec> {
+        StereoW::new(self, 12)
     }
     #[doc = "Bits 14:15 - Data size when write to FIFO."]
     #[inline(always)]

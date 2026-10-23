@@ -5,7 +5,7 @@ pub type W = crate::W<Ctrl1ch0Spec>;
 #[doc = "Field `BITS_WORD` reader - I2S word length."]
 pub type BitsWordR = crate::FieldReader;
 #[doc = "Field `BITS_WORD` writer - I2S word length."]
-pub type BitsWordW<'a, REG> = crate::FieldWriter<'a, REG, 5>;
+pub type BitsWordW<'a, REG> = crate::FieldWriter<'a, REG, 5, u8, crate::Safe>;
 #[doc = "Field `EN` reader - I2S clock enable."]
 pub type EnR = crate::BitReader;
 #[doc = "Field `EN` writer - I2S clock enable."]
@@ -13,7 +13,7 @@ pub type EnW<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `SMP_SIZE` reader - I2S sample size length."]
 pub type SmpSizeR = crate::FieldReader;
 #[doc = "Field `SMP_SIZE` writer - I2S sample size length."]
-pub type SmpSizeW<'a, REG> = crate::FieldWriter<'a, REG, 5>;
+pub type SmpSizeW<'a, REG> = crate::FieldWriter<'a, REG, 5, u8, crate::Safe>;
 #[doc = "Field `ADJUST` reader - LSB/MSB Justify."]
 pub type AdjustR = crate::BitReader;
 #[doc = "Field `ADJUST` writer - LSB/MSB Justify."]
@@ -21,7 +21,7 @@ pub type AdjustW<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `CLKDIV` reader - I2S clock frequency divisor."]
 pub type ClkdivR = crate::FieldReader<u16>;
 #[doc = "Field `CLKDIV` writer - I2S clock frequency divisor."]
-pub type ClkdivW<'a, REG> = crate::FieldWriter<'a, REG, 16, u16>;
+pub type ClkdivW<'a, REG> = crate::FieldWriter<'a, REG, 16, u16, crate::Safe>;
 impl R {
     #[doc = "Bits 0:4 - I2S word length."]
     #[inline(always)]
